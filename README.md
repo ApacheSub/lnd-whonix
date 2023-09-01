@@ -46,7 +46,9 @@ Now we can start working on the Virtual Machines. I assume at this point you hav
 I use virt-manager so what I do is clone 
 
 Whonix-Gateway -> Whonix-Gateway-Bitcoin
+
 Whonix-Workstation -> Whonix-Workstation-Bitcoind
+
 Whonix-Workstation -> Whonix-Workstation-LND
 
 This can be done by right-clicking them in virt-manager.
