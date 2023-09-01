@@ -36,14 +36,16 @@ For that you have to modify the XML file you used to create Whonix-Internal netw
 
 Save it as `Whonix-Internal-Bitcoin.xml` and run:
 ```
-virsh -c qemu:///system net-define Whonix-Internal-Bitcoin.xml
+sudo virsh -c qemu:///system net-define Whonix-Internal-Bitcoin.xml
 ```
 ```
-virsh -c qemu:///system net-autostart Whonix-Internal-Bitcoin.xml
+sudo virsh -c qemu:///system net-autostart Whonix-Internal-Bitcoin.xml
 ```
 ```
-virsh -c qemu:///system net-start Whonix-Internal-Bitcoin.xml
+sudo virsh -c qemu:///system net-start Whonix-Internal-Bitcoin.xml
 ```
+
+Above commands likely need sudo but it depends on the setup. It's also possible that it doesn't depending on how your virsh is setup.
 
 Now we can start working on the Virtual Machines. I assume at this point you have default Whonix-Workstation and Whonix-Gateway imported.
 
