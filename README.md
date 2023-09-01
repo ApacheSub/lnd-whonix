@@ -1,6 +1,10 @@
 # lnd-whonix
 Setup detailing required configuration for running LND in Whonix
 
+## Donations are welcome
+
+Bitcoin address: :`bc1qcxgdr6tvnm0wuyejs98pennpyv9ktcz6sxfcca`
+
 ## Setting up Whonix
 
 This guide mainly focuses on running Whonix in KVM. If you use VirtualBox, that is likely fine but some things may not work.
