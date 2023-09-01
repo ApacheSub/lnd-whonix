@@ -101,8 +101,11 @@ Installing onion-grater profiles:
 Let's say you have the two `.yml` files in `/home/user/onion-grater/`
 
 ```cd /usr/local/etc/onion-grater-merger.d/```
+
 ```sudo ln -s /home/user/onion-grater/40_bitcoind.yml 40_bitcoind.yml```
+
 ```sudo ln -s /home/user/onion-grater/40_lnd.yml 40_lnd.yml```
+
 ```sudo service onion-grater restart```
 
 That's it, now the Gateway will allow what we need.
