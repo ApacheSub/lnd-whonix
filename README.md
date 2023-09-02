@@ -36,7 +36,7 @@ For that you have to modify the XML file you used to create Whonix-Internal netw
 
 Save it as `Whonix_Internal_Bitcoin.xml` and run:
 ```
-sudo virsh -c qemu:///system net-define Whonix-Internal-Bitcoin.xml
+sudo virsh -c qemu:///system net-define Whonix_Internal_Bitcoin.xml
 ```
 ```
 sudo virsh -c qemu:///system net-autostart Whonix-Internal-Bitcoin
