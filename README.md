@@ -39,10 +39,10 @@ Save it as `Whonix-Internal-Bitcoin.xml` and run:
 sudo virsh -c qemu:///system net-define Whonix-Internal-Bitcoin.xml
 ```
 ```
-sudo virsh -c qemu:///system net-autostart Whonix-Internal-Bitcoin.xml
+sudo virsh -c qemu:///system net-autostart Whonix-Internal-Bitcoin
 ```
 ```
-sudo virsh -c qemu:///system net-start Whonix-Internal-Bitcoin.xml
+sudo virsh -c qemu:///system net-start Whonix-Internal-Bitcoin
 ```
 
 Above commands likely need sudo but it depends on the setup. It's also possible that it doesn't depending on how your virsh is setup.
