@@ -43,9 +43,9 @@ Run the following command to do so:
 
 Then, let's change the definitions of the VMs to use the new internal network:
 
-```sed -e 's/Whonix-Internal/Whonix-Internal-Bitcoin/' -e 's/<name>Whonix-Workstation</name>/<name>Whonix-Workstation-Template<\/name>/' Whonix-Workstation*.xml > Whonix-Workstation-Template.xml```
+```sed -e 's/Whonix-Internal/Whonix-Internal-Bitcoin/' -e 's/<name>Whonix-Workstation<\/name>/<name>Whonix-Workstation-Template<\/name>/' Whonix-Workstation*.xml > Whonix-Workstation-Template.xml```
 
-```sed -e 's/Whonix-Internal/Whonix-Internal-Bitcoin/' -e 's/<name>Whonix-Gateway</name>/<name>Whonix-Gateway-Template<\/name>/' Whonix-Gateway*.xml > Whonix-Gateway-Template.xml```
+```sed -e 's/Whonix-Internal/Whonix-Internal-Bitcoin/' -e 's/<name>Whonix-Gateway<\/name>/<name>Whonix-Gateway-Template<\/name>/' Whonix-Gateway*.xml > Whonix-Gateway-Template.xml```
 
 Now let's ensure networking is enabled:
 
