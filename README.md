@@ -9,8 +9,6 @@ Bitcoin address: :`bc1qcxgdr6tvnm0wuyejs98pennpyv9ktcz6sxfcca`
 
 This guide mainly focuses on running Whonix in KVM. If you use VirtualBox, that is likely fine but some things may not work.
 
-There's some excellent guidance on Whonix for KVM at: https://www.whonix.org/wiki/KVM
-
 I will be covering things that are relevant to the setup.
 
 The setup will consist of 3 Virtual Machines:
@@ -19,51 +17,89 @@ The setup will consist of 3 Virtual Machines:
 - Bitcoin Daemon
 - LND
 
-I recommend following the Whonix for KVM guide so that you have imported Whonix-Gateway and Whonix-Workstation to libvirt. This way you can easily clone them to make new VMs.
+### Initial steps
+
+Install KVM on your machine and download Whonix
+
+Follow steps here to do it: https://www.whonix.org/wiki/KVM
+
+After you've downloaded the Whonix KVM archive, extract it:
+
+```tar -Jxvf Whonix*.xz```
 
 ### Network setup
 
 First thing you need to do is create a new internal network for all your LND-related VMs.
 
-For that you have to modify the XML file you used to create Whonix-Internal network:
+#### On the host
+
+Go into the folder where you extracted Whonix previously. There we need to make some modifications on the XML files.
+
+Let's start off by creating an XML file specifying the internal network that we will be using for our VMs.
+
+Run the following command to do so:
+
+```sed -e 's/virbr2/virbr3/' -e 's/Whonix-Internal/Whonix-Internal-Bitcoin/' Whonix_internal_network-*.xml > Whonix-Internal-Bitcoin.xml```
+
+Then, let's change the definitions of the VMs to use the new internal network:
+
+```sed -e 's/Whonix-Internal/Whonix-Internal-Bitcoin/' -e 's/<name>Whonix-Workstation</name>/<name>Whonix-Workstation-Template<\/name>/' Whonix-Workstation*.xml > Whonix-Workstation-Template.xml```
+
+```sed -e 's/Whonix-Internal/Whonix-Internal-Bitcoin/' -e 's/<name>Whonix-Gateway</name>/<name>Whonix-Gateway-Template<\/name>/' Whonix-Gateway*.xml > Whonix-Gateway-Template.xml```
+
+Now let's ensure networking is enabled:
+
+```sudo virsh -c qemu:///system net-autostart default```
+
+```sudo virsh -c qemu:///system net-start default```
+
+Next, let's import our networks to libvirt:
 
 ```
-<network>
-  <name>Whonix-Internal-Bitcoin</name>
-  <bridge name='virbr3' stp='on' delay='0'/>
-</network>
+sudo virsh -c qemu:///system net-define Whonix_external_network*.xml
 ```
 
-Save it as `Whonix_Internal_Bitcoin.xml` and run:
 ```
-sudo virsh -c qemu:///system net-define Whonix_Internal_Bitcoin.xml
+sudo virsh -c qemu:///system net-define Whonix-Internal-Bitcoin.xml
 ```
+
 ```
 sudo virsh -c qemu:///system net-autostart Whonix-Internal-Bitcoin
 ```
+
 ```
 sudo virsh -c qemu:///system net-start Whonix-Internal-Bitcoin
 ```
 
-Above commands likely need sudo but it depends on the setup. It's also possible that it doesn't depending on how your virsh is setup.
+```
+sudo virsh -c qemu:///system net-autostart Whonix-External
+```
 
-Now we can start working on the Virtual Machines. I assume at this point you have default Whonix-Workstation and Whonix-Gateway imported.
+```
+sudo virsh -c qemu:///system net-start Whonix-External
+```
 
-I use virt-manager so what I do is clone 
+Finally we can import the VMs:
 
-Whonix-Gateway -> Whonix-Gateway-Bitcoin
+```sudo virsh -c qemu:///system define Whonix-Gateway-Template.xml```
 
-Whonix-Workstation -> Whonix-Workstation-Bitcoind
+```sudo virsh -c qemu:///system define Whonix-Workstation-Template.xml```
 
-Whonix-Workstation -> Whonix-Workstation-LND
+Now we need to move the `qcow2` images to the folder they belong in. The default location is '/var/lib/libvirt/images/' but depending on if you want them elsewhere, the location may vary.
 
-This can be done by right-clicking them in virt-manager.
+```sudo mv Whonix-Gateway*.qcow2 /var/lib/libvirt/images/Whonix-Gateway.qcow2```
 
-After cloning we need to change the VMs to use the newly created Whonix-Internal-Bitcoin network.
+```sudo mv Whonix-Workstation*.qcow2 /var/lib/libvirt/images/Whonix-Workstation.qcow2```
 
-Double click the VMs in virt-manager and click the light bulb button to change settings. There you should find a tab that starts with NIC. In Network source select Whonix-Internal-Bitcoin.
+Be careful. If you use a non-default location for the images, the changes need to be reflected in the XML files that define the VMs. The location can be changed afterwards and is very easy in virt-manager.
 
-Alternatively, you can modify the XML by finding `<source network="Whonix-Internal"/>` and changing that.
+The last thing we need to do is clone the VMs that we are going to configure:
+
+```sudo virt-clone --original Whonix-Gateway-Template --name Whonix-Gateway-Bitcoin --auto-clone```
+
+```sudo virt-clone --original Whonix-Workstation-Template --name Whonix-Workstation-Bitcoind --auto-clone```
+
+```sudo virt-clone --original Whonix-Workstation-Template --name Whonix-Workstation-LND --auto-clone```
 
 ### Configuring VMs
 
@@ -74,6 +110,8 @@ Do the same later for the workstations too but not yet. You can also allocate mo
 Before starting Whonix-Workstation-Bitcoind and LND, you need to change their default IP addresses.
 
 First, start Whonix-Workstation-LND. At this point you can change the default user password there too.
+
+#### In Whonix-Workstation-LND
 
 Next edit `/etc/network/interfaces.d/30_non-qubes-whonix` I prefer `sudo -e /path/to/file`.
 
@@ -100,7 +138,9 @@ I will include two profiles in this repository:
 
 Installing onion-grater profiles:
 
-Let's say you have the two `.yml` files in `/home/user/onion-grater/`
+Let's say you have the two `YAML` files in `/home/user/onion-grater/`
+
+#### In Whonix-Gateway-Bitcoin
 
 ```cd /usr/local/etc/onion-grater-merger.d/```
 
@@ -117,6 +157,8 @@ That's it, now the Gateway will allow what we need.
 Start the Bitcoind Workstation. Now is the time to change the default password for user if you have not done so yet `sudo passwd user`.
 
 I like to run bitcoind on a non-privileged user. Create an user called bitcoin:
+
+#### In Whonix-Workstation-Bitcoind
 
 ```sudo useradd bitcoin```
 
