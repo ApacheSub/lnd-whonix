@@ -3,7 +3,7 @@
 set -e
 
 echo "Changing internal IP address"
-sed -i 's/10.152.152.11/10.152.152.12' /etc/network/interfaces.d/30_non-qubes-whonix
+sed -i 's/10.152.152.11/10.152.152.12/' /etc/network/interfaces.d/30_non-qubes-whonix
 
 echo "Disabling graphical environment"
 echo "rads_start_display_manager=0" >> /etc/rads.d/50_user.conf
