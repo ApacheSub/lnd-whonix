@@ -238,6 +238,10 @@ Now you should be more or less ready to run bitcoind. I have setup bitcoind to r
 
 #### Configuring LND Workstation
 
+I have included some convenience scripts to the LND folder to initialize the VM and also for downloading LND.
+
+Here are all the steps that you can do manually (the script does not automate everything anyway):
+
 Again, let's open some ports in the firewall in `/etc/whonix_firewall.d/50_user.conf`
 
 ```
@@ -255,6 +259,13 @@ sudo useradd lightning
 I will include a sample `lnd.conf` config that you can use. Some specific Whonix-related stuff included.
 
 Now you're more or less ready to running LND. Run the binary as lightning user. I have linked a couple of resources below to help running LND if needed.
+
+Following command may be helpful installing LND:
+
+```
+sudo install -g root -m 0755 -o root -t /usr/local/bin ln*
+```
+
 
 Now that LND runs in a VM, not to mention Whonix, backups may be a bit trickier. One option is to mount an additional `qcow2` volume on a separate drive where you back up the channels.
 
