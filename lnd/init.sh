@@ -15,7 +15,7 @@ whonix_firewall
 echo "Adding user that LND will run as"
 useradd -m -s /bin/bash lightning
 echo "Adding user that will run backups"
-useradd -s /bin/bash backup
+useradd -s /bin/bash backups
 
 echo "Adding service file for LND"
 cp lnd.service /etc/systemd/system/
