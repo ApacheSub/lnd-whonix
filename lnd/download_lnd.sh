@@ -9,7 +9,7 @@ BHANDRAS_SIG_URL="https://github.com/lightningnetwork/lnd/releases/download/${LN
 mkdir -p download-folder
 cd download-folder
 
-# scurl-download $DOWNLOAD_URL
+scurl-download $DOWNLOAD_URL
 scurl-download $MANIFEST_URL
 scurl-download $ROASBEEF_SIG_URL
 scurl-download $BHANDRAS_SIG_URL
