@@ -1,0 +1,12 @@
+[Sercice]
+ExecStart=/path/to/script
+Restart=always
+RestartSec=1
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=backup-channels
+User=backup
+Group=backup
+
+[Install]
+WantedBy=multi-user.target
