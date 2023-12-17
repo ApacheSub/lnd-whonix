@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LND_RELEASE="v0.17.2-beta"
+LND_RELEASE="v0.17.3-beta"
 DOWNLOAD_URL="https://github.com/lightningnetwork/lnd/releases/download/${LND_RELEASE}/lnd-linux-amd64-${LND_RELEASE}.tar.gz"
 MANIFEST_URL="https://github.com/lightningnetwork/lnd/releases/download/${LND_RELEASE}/manifest-${LND_RELEASE}.txt"
 ROASBEEF_SIG_URL="https://github.com/lightningnetwork/lnd/releases/download/${LND_RELEASE}/manifest-roasbeef-${LND_RELEASE}.sig"
