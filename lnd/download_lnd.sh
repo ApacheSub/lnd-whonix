@@ -28,5 +28,4 @@ gpg --verify manifest-bhandras-${LND_RELEASE}.sig manifest-${LND_RELEASE}.txt
 
 echo "---"
 echo "Be mindful of the verification result above and proceed only if it succeeded."
-rm ./manifest-*.txt
 rm ./manifest-*.sig
